@@ -15,7 +15,8 @@ function foreach_dir(){
     # 在此处处理文件
     # 获取目录 path=`dirname $file`
     echo "执行文件：$file"
-    echo `mvn -f $file clean package -Dmaven.test.skip=true`
+    #echo `mvn -f $file clean package -Dmaven.test.skip=true`
+    echo `mvn -f $file dependency:sources`
   done
 }
 
