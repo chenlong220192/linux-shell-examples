@@ -21,7 +21,7 @@ exec 3<> ./fd1
 rm -rf ./fd1
 
 # Step2 创建令牌
-for i in `seq 1 20`;
+for i in `seq 1 10`;
 do
     # echo 每次输出一个换行符,也就是一个令牌
     echo >&3
@@ -40,10 +40,10 @@ function foreach_dir(){
       # 在此处处理文件
       echo "执行文件：$file"
       echo '***开始拉取源码***'
-      echo `mvn -f $file dependency:sources`
+      mvn -f $file dependency:sources
       echo '***源码拉取结束***'
       echo '***开始打包***'
-      echo `mvn -f $file clean package -Dmaven.test.skip=true`
+      mvn -f $file clean package -Dmaven.test.skip=false
       echo '***打包结束***'
       # 执行完一条命令会将令牌放回管道
       echo >&3
