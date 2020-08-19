@@ -21,7 +21,7 @@ exec 3<> ./fd1
 rm -rf ./fd1
 
 # Step2 创建令牌
-for i in `seq 1 30`;
+for i in `seq 1 100`;
 do
     # echo 每次输出一个换行符,也就是一个令牌
     echo >&3
@@ -38,9 +38,10 @@ function foreach_dir(){
     read -u3
     {
       # 在此处处理文件
-      echo '***开始拉取源码***'
-      mvn -f $file dependency:sources && mvn -f $file clean package -Dmaven.test.skip=true -U &&  mvn -f $file clean 
-      echo '***拉取源码结束***'
+      file_real_path=`dirname $file`
+      echo "执行目录：$file_real_path"
+      cd $file_real_path
+      git reset --hard && git fetch && git pull
       # 执行完一条命令会将令牌放回管道
       echo >&3
     }&
