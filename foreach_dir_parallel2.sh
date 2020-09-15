@@ -21,7 +21,7 @@ exec 3<> ./fd1
 rm -rf ./fd1
 
 # Step2 创建令牌
-for i in `seq 1 100`;
+for i in `seq 1 30`;
 do
     # echo 每次输出一个换行符,也就是一个令牌
     echo >&3
@@ -30,7 +30,7 @@ done
 # Step3 拿出令牌，进行并发操作
 function foreach_dir(){
   # find 查询所有目标文件
-  files=`find $1 -iname $2`
+  files=$(find ~/Programs/eproePrograms/eproe-ladder -name '*.sh')
   echo "执行文件列表：\n$files"
   for file in $files
   do
@@ -38,10 +38,9 @@ function foreach_dir(){
     read -u3
     {
       # 在此处处理文件
-      file_real_path=`dirname $file`
-      echo "执行目录：$file_real_path"
-      cd $file_real_path
-      git reset --hard && git fetch && git pull
+      echo '***开始拉取源码***'
+      chmod u+x $file
+      echo '***拉取源码结束***'
       # 执行完一条命令会将令牌放回管道
       echo >&3
     }&
